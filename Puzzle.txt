@@ -1,0 +1,74 @@
+Initial Board:
+   |   |   
+   |  6| 18
+   |78 |35 
+-----------
+ 6 | 9 |  3
+ 3 |65 |924
+  4| 27|5  
+-----------
+  7|  1|  5
+ 52|  3| 49
+ 43|5 2|186
+
+Your board is: (0h:0m:18s)
+   |   |   
+   |  6| 18
+   |78 |35 
+-----------
+ 6 | 9 |  3
+ 3 |65 |924
+  4| 27|5  
+-----------
+  7|  1|  5
+ 52|  3| 49
+943|572|186
+
+Incorrect Cells:
+XY = Answer
+___________
+AA = 3
+BA = 2
+CA = 8
+DA = 4
+EA = 1
+FA = 5
+GA = 6
+HA = 9
+IA = 7
+AB = 5
+BB = 7
+CB = 9
+DB = 2
+EB = 3
+GB = 4
+AC = 4
+BC = 1
+CC = 6
+FC = 9
+IC = 2
+AD = 2
+CD = 5
+DD = 1
+FD = 4
+GD = 8
+HD = 7
+AE = 7
+CE = 1
+FE = 8
+AF = 8
+BF = 9
+DF = 3
+HF = 6
+IF = 1
+AG = 6
+BG = 8
+DG = 9
+EG = 4
+GG = 2
+HG = 3
+AH = 1
+DH = 8
+EH = 6
+GH = 7
+You got 44 cells wrong
