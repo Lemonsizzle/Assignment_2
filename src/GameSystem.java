@@ -19,6 +19,8 @@ import javax.swing.JPanel;
  * @author Zane (18040182)
  */
 public class GameSystem extends JFrame implements ActionListener, CommonVariables {
+    DBManager DBM;
+    
     Board board;
     JComboBox[][] cell;
     JButton resetB;
@@ -27,6 +29,9 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
     
     GameSystem(String title){
         super(title);
+        
+        DBM = new DBManager();
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         start = System.currentTimeMillis();
         board = new Board();
@@ -102,6 +107,7 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
             }
         }
         else if(e.getSource() == submitB){
+            DBM.scoreDB("test", 73);
             long elapsed = (System.currentTimeMillis() - start)/1000;
             new EndSequence(board, elapsed);
         }
