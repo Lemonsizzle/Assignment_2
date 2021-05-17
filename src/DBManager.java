@@ -42,6 +42,7 @@ public class DBManager {
         if (conn != null) {
             try {
                 conn.close();
+                System.err.println("Database Closed");
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -54,7 +55,7 @@ public class DBManager {
      * @return best score of a user
      */
     public int getScore(String name){
-        int points = 0;
+        int points = 81;
         ResultSet rs = queryDB("SELECT points FROM scores WHERE name = '"+name+"'");
         try{
             if(rs.next()){
@@ -66,31 +67,36 @@ public class DBManager {
         return points;
     }
     
+    public boolean exists(String name){
+        ResultSet rs = queryDB("SELECT name FROM scores WHERE name = '"+name+"'");
+        try{
+            return rs.next();
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+        
+        return false;
+    }
+    
     /**
      * sets the score in the database
      * @param name of the user
      * @param score is the number of incorrect cells
      */
     public void setScore(String name, int score){
-        ResultSet rs = queryDB("SELECT name FROM scores WHERE name = '"+name+"'");
-        try {
-            if(rs.next()){   // name exists
-                System.err.println("name");
-                if(score < getScore(name)){
-                    updateDB("UPDATE scores SET points="+score+" where name = '"+name+"'");
-                }
+        if(exists(name)){   // name exists
+            if(score < getScore(name)){
+                updateDB("UPDATE scores SET points="+score+" where name = '"+name+"'");
             }
-            else {           // name doesn't exist
-                updateDB("INSERT INTO scores(name,points) VALUES ('"+name+"',"+score+")");
-            }
-        } catch (SQLException ex) {
-            System.err.println(ex);
+        }
+        else {              // name doesn't exist
+            updateDB("INSERT INTO scores(name,points) VALUES ('"+name+"',"+score+")");
         }
     }
     
     /**
      * general DB check method
-     * @param sql command to be checked against
+     * @param sql command to be checked against the DB
      * @return the set of results that fit the criteria
      */
     public ResultSet queryDB(String sql) {
@@ -110,8 +116,8 @@ public class DBManager {
     }
 
     /**
-     * 
-     * @param sql criteria to 
+     * updates DB with given criteria
+     * @param sql criteria to change the DB
      */
     public void updateDB(String sql) {
 

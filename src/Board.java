@@ -112,6 +112,14 @@ public class Board extends PuzGen implements CommonVariables {
     }
     
     /**
+     * resets turns taken to 0
+     * called when reset button pressed
+     */
+    public void resetTurn(){
+        turns = 0;
+    }
+    
+    /**
      * creates a string that contains the puzzle
      *      in a user friendly way for inputs
      * @return the string

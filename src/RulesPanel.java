@@ -13,17 +13,18 @@ public class RulesPanel extends JPanel implements CommonVariables {
      * just for initializing
      */
     public RulesPanel(){
-        int ruleCount = 5;
+        int ruleCount = 6;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
         JLabel header = new JLabel("<HTML><U><B>Sudoku Rules:</B></U></HTML>");
         JLabel[] rules = new JLabel[ruleCount];
         
-        rules[0] = new JLabel("1. Only use the numbers 1 to 9");
+        rules[0] = new JLabel("1. Only use the numbers 1 to 9 (0 means empty)");
         rules[1] = new JLabel("2. Avoid trying to guess the solution to the puzzle");
         rules[2] = new JLabel("3. Only use each number once in each row, column, & grid");
         rules[3] = new JLabel("4. Use the process of elimination as a tactic");
         rules[4] = new JLabel("5. If you wish to save your score then login at the bottom");
+        rules[5] = new JLabel("6. Scores use golf rules (lower number = better)");
         
         header.setFont(font);
         add(header);

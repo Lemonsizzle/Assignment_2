@@ -1,10 +1,14 @@
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -12,39 +16,45 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
+ * the frame class for the Sudoku GUI
  * @author Zane (18040182)
  */
 public class GameSystem extends JFrame implements ActionListener, CommonVariables {
     // game panel
-    private Board board;
-    private JPanel[][] chunk;
-    private JComboBox[][] cell;
+    private final Board board;
+    private final JPanel[][] chunk;
+    private final JComboBox[][] cell;
     
     // user panel
-    private JTextField nameField;
-    private JButton loginB;
-    private JLabel points;
+    private final JLabel userLabel;
+    private final JTextField nameField;
+    private final JButton loginB;
+    private final JLabel points;
     
     // button panel
-    private JButton newGameB, resetB, submitB;
+    private final JButton newGameB, resetB, submitB;
     
     // variables
-    private boolean again = false;
     private long start;
     private String name = "";
     
+    /**
+     * manages the GUI for the Sudoku game
+     * @param title of the frame
+     */
     GameSystem(String title){
         super(title);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent we){
+                DBM.closeConnections();
+            }
+        });
+        
         RulesPanel rules = new RulesPanel();
         
         start = System.currentTimeMillis();
@@ -71,10 +81,19 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
                 if(board.getOrig().get()[j][i] != 0){
                     val = board.puz[j][i];
                     cell[j][i].addItem(val);
-                    cell[j][i].disable();
+                    cell[j][i].setRenderer(new DefaultListCellRenderer() {
+                        @Override
+                        public void paint(Graphics g) {
+                            setForeground(Color.RED);
+                            super.paint(g);
+                        }
+                    });
+                    cell[j][i].disable(); 
                 }
                 else{
-                    for(int l = 0; l < 10; l++){
+                    cell[j][i].setForeground(Color.BLUE);
+                    cell[j][i].insertItemAt("", 0);
+                    for(int l = 1; l < 10; l++){
                         cell[j][i].addItem(l);
                     }
                 }
@@ -94,11 +113,15 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
         bottomP.setLayout(new BoxLayout(bottomP, BoxLayout.Y_AXIS));
         
         JPanel loginP = new JPanel();
+        userLabel = new JLabel("User:");
+        loginP.add(userLabel);
+        
         nameField = new JTextField(20);
         loginP.add(nameField);
         
         loginB = new JButton("Login");
         loginB.addActionListener(this);
+        loginB.setToolTipText("Takes input username and creates ");
         loginP.add(loginB);
         
         points = new JLabel();
@@ -107,14 +130,17 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
         JPanel buttonP = new JPanel();
         newGameB = new JButton("New Game");
         newGameB.addActionListener(this);
+        newGameB.setToolTipText("Creates a new board to be solved");
         buttonP.add(newGameB);
         
         resetB = new JButton("Reset");
         resetB.addActionListener(this);
+        resetB.setToolTipText("Resets board to first turn version");
         buttonP.add(resetB);
         
         submitB = new JButton("Submit");
         submitB.addActionListener(this);
+        submitB.setToolTipText("Checks answers and saves to Sudoku.txt");
         buttonP.add(submitB);
         
         bottomP.add(loginP);
@@ -125,18 +151,21 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
         add(bottomP, BorderLayout.PAGE_END);
     }
     
-    public boolean getAgain(){
-        return again;
-    }
-    
+    /**
+     * manages user interactions
+     * @param e is the item being interacted with
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == loginB){
             name = nameField.getText();
-            points.setText("Best: "+ DBM.getScore(name));
+            
+            if(DBM.exists(name)){
+                points.setText("Best: "+ DBM.getScore(name));
+            }
         }
         else if(e.getSource() == newGameB){
-            // this feels wrong but it works
+            // this feels ineficient but it works
             GameSystem frame = new GameSystem("Sudoku");
             frame.pack();
             frame.setVisible(true);
@@ -145,8 +174,9 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
         else if(e.getSource() == resetB){
             for(int j = 0; j < MAX; j++){
                 for(int i = 0; i < MAX; i++){
-                    cell[j][i].setSelectedItem(board.getOrig().get()[j][i]);
+                    cell[j][i].setSelectedIndex(board.getOrig().get()[j][i]);
                     board.puz[j][i] = board.getOrig().get()[j][i];
+                    board.resetTurn();
                     start = System.currentTimeMillis();
                 }
             }
@@ -159,13 +189,11 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
             for(int j = 0; j < MAX; j++){
                 for(int i = 0; i < MAX; i++){
                     if(e.getSource() == cell[j][i]){
-                        board.puz[j][i] = (int)cell[j][i].getSelectedItem();
+                        board.puz[j][i] = cell[j][i].getSelectedIndex();
                         board.addTurn();
-                        System.out.println("cell: "+(i+1)+" "+(j+1)+" changed");
                     }
                 }
             }
         }
     }
-    
 }
