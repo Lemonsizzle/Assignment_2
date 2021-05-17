@@ -1,76 +1,76 @@
 Initial Board:
    |   |   
-   | 56|7 1
-   |7  |362
+   | 87|3  
+   |5  | 24
 -----------
- 6 | 8 |  4
-  8|9 7| 3 
- 3 | 45|817
+ 7 | 4 | 1 
+  1|8 5|742
+ 2 | 76|83 
 -----------
-  5| 69|   
- 9 |  3|276
-  2|874|5 3
+ 43|   |  9
+  9|4  |253
+  5|931|487
 
-Your board is: (0h:0m:1s)
+Your board is: (you took 0 turns and 0h:0m:47s)
    |   |   
-   | 56|7 1
-   |7  |362
+   | 87|3  
+   |5  | 24
 -----------
- 6 | 8 |  4
-  8|9 7| 3 
- 3 | 45|817
+ 7 | 4 | 1 
+  1|8 5|742
+ 2 | 76|83 
 -----------
-  5| 69|   
- 9 |  3|276
-  2|874|5 3
+ 43|   |  9
+  9|4  |253
+  5|931|487
 
 Incorrect Cells:
 XY = Answer
 ___________
-AA = 7
-BA = 8
+AA = 1
+BA = 9
 CA = 6
-DA = 1
-EA = 3
-FA = 2
-GA = 4
-HA = 5
-IA = 9
-AB = 9
-BB = 2
-CB = 3
-DB = 4
-HB = 8
-AC = 4
-BC = 5
-CC = 1
-EC = 9
-FC = 8
+DA = 3
+EA = 2
+FA = 4
+GA = 5
+HA = 7
+IA = 8
+AB = 4
+BB = 5
+CB = 2
+DB = 6
+HB = 9
+IB = 1
+AC = 3
+BC = 8
+CC = 7
+EC = 1
+FC = 9
+GC = 6
 AD = 5
-CD = 7
-DD = 3
-FD = 1
+CD = 8
+DD = 2
+FD = 3
 GD = 9
-HD = 2
-AE = 1
-BE = 4
-EE = 2
-GE = 6
-IE = 5
-AF = 2
-CF = 9
-DF = 6
-AG = 3
-BG = 7
-DG = 2
+ID = 6
+AE = 6
+BE = 3
+EE = 9
+AF = 9
+CF = 4
+DF = 1
+IF = 5
+AG = 8
+DG = 7
+EG = 5
+FG = 2
 GG = 1
-HG = 4
-IG = 8
-AH = 8
-CH = 4
-DH = 5
-EH = 1
-AI = 6
-BI = 1
-HI = 9
-You got 46 cells wrong
+HG = 6
+AH = 7
+BH = 1
+EH = 6
+FH = 8
+AI = 2
+BI = 6
+You got 92 cells wrong

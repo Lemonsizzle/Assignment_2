@@ -104,6 +104,14 @@ public class Board extends PuzGen implements CommonVariables {
     }
     
     /**
+     * increments turns by 1
+     * called when a cell changes
+     */
+    public void addTurn(){
+        turns++;
+    }
+    
+    /**
      * creates a string that contains the puzzle
      *      in a user friendly way for inputs
      * @return the string

@@ -7,6 +7,7 @@
 public class Answer implements CommonVariables {
     private final int[][] ANS;
     private final boolean[][] RESULTS;
+    private int incorrect = 0;
     
     /**
      * initializes the final answer for the puzzle
@@ -23,6 +24,14 @@ public class Answer implements CommonVariables {
     }
     
     /**
+     * 
+     * @return number of incorrect values
+     */
+    public int getIncorrect(){
+        return incorrect;
+    }
+    
+    /**
      * get method for the answer to the puzzle
      * @return the answer array for the puzzle
      */
@@ -35,9 +44,12 @@ public class Answer implements CommonVariables {
      * @param puz the puzzle to be checked
      */
     public void check(int[][] puz){
+        incorrect = 0;
         for(int j = 0; j < MAX; j++){
             for(int i = 0; i < MAX; i++){
                 RESULTS[j][i] = puz[j][i] == ANS[j][i];
+                if(!RESULTS[j][i])
+                    incorrect++;
             }
         }
     }
@@ -51,24 +63,22 @@ public class Answer implements CommonVariables {
         String str = "Incorrect Cells:\n";
         str += "XY = Answer\n";
         str += "___________\n";
-        int count = 0;
         String x, y;
         for(int j = 0; j < RESULTS.length; j++){
             for(int i = 0; i < RESULTS.length; i++){
                 if(!RESULTS[j][i]){
-                    count++;
                     x = String.valueOf((char)(i+65));
                     y = String.valueOf((char)(j+65));
                     str += x + y + " = " + ANS[j][i] + "\n";
                 }
             }
         }
-        if(count == 0){
+        if(incorrect == 0){
             str = "You got all cells correct";
             return str;
         }
         else{
-            str += "You got " + count + " cells wrong";
+            str += "You got " + incorrect + " cells wrong";
             return str;
         }
     }

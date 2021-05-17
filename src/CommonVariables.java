@@ -20,4 +20,6 @@ public interface CommonVariables {
     final int MAX = 9;
     final int MAX_ROOT = (int) Math.sqrt(MAX);
     Font font = new Font("Calibri", Font.PLAIN, 20);
+    
+    final DBManager DBM = new DBManager();
 }

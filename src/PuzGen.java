@@ -4,6 +4,7 @@
  */
 public abstract class PuzGen implements CommonVariables {
     protected int[][] puz;
+    protected int turns = 0;
     
     public PuzGen(){
         puz = new int[MAX][MAX]; // makes a 9x9 grid full of 0's

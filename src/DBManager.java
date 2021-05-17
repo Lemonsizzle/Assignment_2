@@ -1,15 +1,12 @@
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
+ * manages database
  * @author Zane (18040182)
  */
 public class DBManager {
@@ -27,7 +24,9 @@ public class DBManager {
         return this.conn;
     }
 
-    //Establish connection
+    /**
+     * initializes the database
+     */
     public void establishConnection() {
         try {
             conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
@@ -35,7 +34,10 @@ public class DBManager {
             System.err.println(ex);
         }
     }
-
+    
+    /**
+     * closes database connection
+     */
     public void closeConnections() {
         if (conn != null) {
             try {
@@ -46,22 +48,51 @@ public class DBManager {
         }
     }
     
-    public void scoreDB(String name, int score){
+    /**
+     * gets score of a given user from the database
+     * @param name of user
+     * @return best score of a user
+     */
+    public int getScore(String name){
+        int points = 0;
+        ResultSet rs = queryDB("SELECT points FROM scores WHERE name = '"+name+"'");
+        try{
+            if(rs.next()){
+                points = rs.getInt("points");
+            }
+        }catch (SQLException ex){
+            System.err.println(ex);
+        }
+        return points;
+    }
+    
+    /**
+     * sets the score in the database
+     * @param name of the user
+     * @param score is the number of incorrect cells
+     */
+    public void setScore(String name, int score){
         ResultSet rs = queryDB("SELECT name FROM scores WHERE name = '"+name+"'");
         try {
             if(rs.next()){   // name exists
-                System.err.println("name exists");
-                updateDB("UPDATE INTO scores WHERE name = '"+name+"' AND points = "+score+")");
+                System.err.println("name");
+                if(score < getScore(name)){
+                    updateDB("UPDATE scores SET points="+score+" where name = '"+name+"'");
+                }
             }
-            else{    // name doesn't exist
-                System.err.println("no name");
+            else {           // name doesn't exist
                 updateDB("INSERT INTO scores(name,points) VALUES ('"+name+"',"+score+")");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
     }
     
+    /**
+     * general DB check method
+     * @param sql command to be checked against
+     * @return the set of results that fit the criteria
+     */
     public ResultSet queryDB(String sql) {
 
         Connection connection = this.conn;
@@ -78,7 +109,10 @@ public class DBManager {
         return resultSet;
     }
 
-    
+    /**
+     * 
+     * @param sql criteria to 
+     */
     public void updateDB(String sql) {
 
         Connection connection = this.conn;
