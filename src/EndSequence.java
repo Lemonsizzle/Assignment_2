@@ -31,7 +31,7 @@ public class EndSequence implements CommonVariables {
         
         System.out.println(board.getAns());
         
-        if(!name.equals("")){
+        if(!name.isEmpty()){
             DBM.setScore(name, board.getAns().getIncorrect());
         }
     }

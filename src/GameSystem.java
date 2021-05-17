@@ -24,21 +24,22 @@ import javax.swing.JTextField;
  */
 public class GameSystem extends JFrame implements ActionListener, CommonVariables {
     // game panel
-    Board board;
-    JPanel[][] chunk;
-    JComboBox[][] cell;
+    private Board board;
+    private JPanel[][] chunk;
+    private JComboBox[][] cell;
     
     // user panel
-    JTextField nameField;
-    JButton loginB;
-    JLabel points;
+    private JTextField nameField;
+    private JButton loginB;
+    private JLabel points;
     
     // button panel
-    JButton newGameB, resetB, submitB;
+    private JButton newGameB, resetB, submitB;
     
-    long start;
-    String name = "";
-    boolean logged;
+    // variables
+    private boolean again = false;
+    private long start;
+    private String name = "";
     
     GameSystem(String title){
         super(title);
@@ -50,7 +51,7 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
         board = new Board();
         
         JPanel grid = new JPanel();
-        setLayout(new GridLayout(MAX_ROOT, MAX_ROOT, 20, 20));
+        grid.setLayout(new GridLayout(MAX_ROOT, MAX_ROOT, 20, 20));
         chunk = new JPanel[MAX_ROOT][MAX_ROOT];
         for(int j = 0; j < MAX_ROOT; j++){
             for(int i = 0; i < MAX_ROOT; i++){
@@ -85,7 +86,7 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
         
         for(int j = 0; j < MAX_ROOT; j++){
             for(int i = 0; i < MAX_ROOT; i++){
-                add(chunk[j][i]);
+                grid.add(chunk[j][i]);
             }
         }
         
@@ -104,6 +105,10 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
         loginP.add(points);
         
         JPanel buttonP = new JPanel();
+        newGameB = new JButton("New Game");
+        newGameB.addActionListener(this);
+        buttonP.add(newGameB);
+        
         resetB = new JButton("Reset");
         resetB.addActionListener(this);
         buttonP.add(resetB);
@@ -120,12 +125,22 @@ public class GameSystem extends JFrame implements ActionListener, CommonVariable
         add(bottomP, BorderLayout.PAGE_END);
     }
     
+    public boolean getAgain(){
+        return again;
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == loginB){
             name = nameField.getText();
-            logged = !nameField.getText().isEmpty();
             points.setText("Best: "+ DBM.getScore(name));
+        }
+        else if(e.getSource() == newGameB){
+            // this feels wrong but it works
+            GameSystem frame = new GameSystem("Sudoku");
+            frame.pack();
+            frame.setVisible(true);
+            dispose();
         }
         else if(e.getSource() == resetB){
             for(int j = 0; j < MAX; j++){

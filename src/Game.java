@@ -11,8 +11,14 @@
 public class Game implements CommonVariables {
     
     public static void main(String[] args) {
-        GameSystem frame = new GameSystem("Sudoku");
-        frame.pack();
-        frame.setVisible(true);
+        GameSystem frame;
+        do{
+            frame = new GameSystem("Sudoku");
+            frame.pack();
+            frame.setVisible(true);
+            while(!frame.getAgain()){
+                
+            }
+        }while(frame.getAgain());
     }
 }
